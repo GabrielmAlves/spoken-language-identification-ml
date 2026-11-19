@@ -13,7 +13,7 @@ data/
 *.npy
 *.npz
 *.onnx
-*.tag.gz
+*.tar.gz
 
 # notebooks
 .ipynb_checkpoints/
