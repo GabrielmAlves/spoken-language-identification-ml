@@ -48,11 +48,31 @@ def fix_length(x: np.ndarray, length: int) -> np.ndarray:
 	return np.pad(x, (0, length - len(x)))
 
 
-def log_mel(x: np.ndarray, config: PreprocessingConfig, filterbank: np.ndarray | None = None) -> np.ndarray:
+def pad_to_min_length(x: np.ndarray, length: int) -> np.ndarray:
+	if len(x) >= length:
+		return x
+	return np.pad(x, (0, length - len(x)))
+
+
+def num_frames(num_samples: int, config: PreprocessingConfig) -> int:
+	n = max(num_samples, config.audio.clip_samples)
+	return (n - config.stft.n_fft) // config.stft.hop_length + 1
+
+
+def _log_mel_frames(x: np.ndarray, config: PreprocessingConfig, filterbank: np.ndarray | None) -> np.ndarray:
 	if filterbank is None:
 		filterbank = mel_filterbank(config.mel, config.audio.sample_rate, config.stft.n_fft)
-	x = fix_length(np.asarray(x, dtype=np.float64), config.audio.clip_samples)
 	frames = frame(x, config.stft.n_fft, config.stft.hop_length)
 	power = power_spectrogram(frames, hann_periodic(config.stft.n_fft), config.stft.n_fft)
 	mel = filterbank @ power.T
 	return np.log(np.maximum(mel, config.mel.log_floor)).astype(np.float32)
+
+
+def log_mel(x: np.ndarray, config: PreprocessingConfig, filterbank: np.ndarray | None = None) -> np.ndarray:
+	x = fix_length(np.asarray(x, dtype=np.float64), config.audio.clip_samples)
+	return _log_mel_frames(x, config, filterbank)
+
+
+def log_mel_full(x: np.ndarray, config: PreprocessingConfig, filterbank: np.ndarray | None = None) -> np.ndarray:
+	x = pad_to_min_length(np.asarray(x, dtype=np.float64), config.audio.clip_samples)
+	return _log_mel_frames(x, config, filterbank)
