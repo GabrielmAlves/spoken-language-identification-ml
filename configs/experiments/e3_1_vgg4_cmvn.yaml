@@ -1,0 +1,11 @@
+exp_id: E3.1_vgg4_cmvn
+model:
+  arch: vgg4
+  norm: cmvn
+train:
+  epochs: 30
+  batch_size: 64
+  lr: 0.001
+  patience: 8
+augment:
+  crop: center

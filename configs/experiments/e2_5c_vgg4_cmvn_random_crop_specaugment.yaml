@@ -1,0 +1,16 @@
+exp_id: E2.5c_vgg4_cmvn_random_crop_specaugment
+model:
+  arch: vgg4
+  norm: cmvn
+train:
+  epochs: 30
+  batch_size: 64
+  lr: 0.001
+  patience: 8
+augment:
+  crop: random
+  spec_augment:
+    freq_masks: 2
+    freq_width: 8
+    time_masks: 2
+    time_width: 40
