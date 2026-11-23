@@ -1,0 +1,11 @@
+exp_id: E1.2_vgg4
+model:
+  arch: vgg4
+  norm: global
+train:
+  epochs: 30
+  batch_size: 64
+  lr: 0.001
+  patience: 8
+augment:
+  crop: center

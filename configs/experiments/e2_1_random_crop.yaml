@@ -1,0 +1,11 @@
+exp_id: E2.1_vgg4_random_crop
+model:
+  arch: vgg4
+  norm: global
+train:
+  epochs: 30
+  batch_size: 64
+  lr: 0.001
+  patience: 8
+augment:
+  crop: random
