@@ -47,6 +47,9 @@ def test_ensemble_averages_logits_and_exports(tmp_path):
 		assert torch.allclose(model(x), expected, atol=1e-6)
 	path = tmp_path / "e.onnx"
 	export_onnx(model, path, N_MELS, N_FRAMES)
+	assert list(tmp_path.glob("*.data")) == []
+	n_params = sum(p.numel() for p in model.parameters())
+	assert path.stat().st_size > 4 * n_params
 	assert validate(path, model, x.numpy())["ok"]
 
 

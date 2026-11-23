@@ -60,7 +60,11 @@ def export_onnx(model: nn.Module, path: Path, n_mels: int, n_frames: int, opset:
 		opset_version=opset,
 		dynamo=True,
 		dynamic_shapes=({0: batch},),
+		external_data=False,
 	)
+	stale = path.with_name(path.name + ".data")
+	if stale.exists():
+		stale.unlink()
 	import onnx
 	onnx.checker.check_model(str(path), full_check=True)
 
