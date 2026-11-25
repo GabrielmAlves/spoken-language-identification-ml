@@ -1,0 +1,57 @@
+{
+  "onnx": "lid_cnn.onnx",
+  "opset": 18,
+  "input": {
+    "name": "log_mel",
+    "shape": [
+      "batch",
+      1,
+      64,
+      498
+    ],
+    "dtype": "float32"
+  },
+  "output": {
+    "name": "logits",
+    "shape": [
+      "batch",
+      5
+    ],
+    "dtype": "float32"
+  },
+  "labels": [
+    "de_de",
+    "en_us",
+    "es_419",
+    "fr_fr",
+    "pt_br"
+  ],
+  "preprocessing_sha256": "84e0ce12ab6bff9091127fafddcc41e2404c4b7a2f4c3871b61caaaf82328f34",
+  "sources": [
+    {
+      "run": "E3.1_vgg4_cmvn_s0",
+      "epoch": 19,
+      "dev_macro_f1": 0.5181196584292019
+    },
+    {
+      "run": "E3.1_vgg4_cmvn_s1",
+      "epoch": 10,
+      "dev_macro_f1": 0.5422005108855847
+    },
+    {
+      "run": "E3.1_vgg4_cmvn_s2",
+      "epoch": 12,
+      "dev_macro_f1": 0.5594701699670008
+    }
+  ],
+  "validation": {
+    "clips": 263,
+    "max_abs_diff": 0.0002862215042114258,
+    "same_argmax": true,
+    "batch1_matches": true,
+    "allclose": true,
+    "torch_macro_f1": 0.6230776179049271,
+    "onnx_macro_f1": 0.6230776179049271,
+    "ok": true
+  }
+}
